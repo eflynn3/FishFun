@@ -7,7 +7,7 @@ class GameSpace:
         pygame.init()
         self.size = self.width, self.height = 640,480
         self.black = 0,0,0
-        self.screen = pygame.display.set_move(self.size)
+        self.screen = pygame.display.set_mode(self.size)
         #instantiate objects
 
         self.clock = pygame.tick.Clock()
