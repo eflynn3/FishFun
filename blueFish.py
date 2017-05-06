@@ -1,13 +1,13 @@
 import pygame
 
 class blueFish(pygame.sprite.Sprite):
-    def __init__(self, gs, ycoord, direction):
+    def __init__(self, gs, yc, direction):
         self.image = pygame.image.load("blueFish.png")
         self.image = pygame.transform.scale(self.image, (60, 60)) 
         self.rect = self.image.get_rect(center = (50, 50))
 
         self.direction = direction
-        self.rect.y = ycoord
+        self.rect.y = yc
         if self.direction == "left":
             self.rect.x = 640
         else:
@@ -15,8 +15,8 @@ class blueFish(pygame.sprite.Sprite):
     
     def tick(self):
         if(self.direction == "left"):
-            self.rect.x -= 1
+            self.rect.x -= 5
         else:
-            self.rect.x += 1  
+            self.rect.x += 5  
 
         
