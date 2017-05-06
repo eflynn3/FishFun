@@ -5,6 +5,7 @@ class blueFish(pygame.sprite.Sprite):
         self.image = pygame.image.load("blueFish.png")
         self.image = pygame.transform.scale(self.image, (60, 60)) 
         self.rect = self.image.get_rect(center = (50, 50))
+        self.size = 60
 
         self.direction = direction
         self.rect.y = yc
