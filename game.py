@@ -15,7 +15,7 @@ class GameSpace:
         self.screen.blit(oceanImage, [0,0])
 
         # initialize all game objects
-        self.playerFish = playerFish(self, 15)
+        self.playerFish = playerFish(self, 15)      #set size to 15
         self.blueFish = blueFish(self, 50, "left")
 
         done = False

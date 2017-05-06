@@ -2,6 +2,7 @@ import pygame
 
 class blueFish(pygame.sprite.Sprite):
     def __init__(self, gs, yc, direction):
+        self.gs = gs
         self.image = pygame.image.load("blueFish.png")
         self.image = pygame.transform.scale(self.image, (60, 60)) 
         self.rect = self.image.get_rect(center = (50, 50))
@@ -16,8 +17,9 @@ class blueFish(pygame.sprite.Sprite):
     
     def tick(self):
         if(self.direction == "left"):
-            self.rect.x -= 5
+            self.rect.x -= 2
         else:
-            self.rect.x += 5  
+            self.rect.x += 2  
+        if self.rect.colliderect(self.gs.playerFish.rect):
+            self.gs.playerFish.change_size()
 
-        
