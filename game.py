@@ -19,14 +19,40 @@ class GameSpace:
         self.fishes = pygame.sprite.Group()
         # initialize all game objects
         self.playerFish = playerFish(self, 15)      #set size to 15
-        self.pinkFish = enemyFish(self, 20, "right", "pinkFish.png", 15)
-        self.blueFish = enemyFish(self, 50, "left", "blueFish.png", 60)
-        self.greenFish = enemyFish(self, 150, "right", "greenFish.png", 30)
-        self.goldFish = enemyFish(self, 200, "left", "goldFish.png", 120)
+        
+        self.pinkFish = enemyFish(self, 20, "right", "pinkFish.png", 15, 2, 0)
+        self.pinkFish2 = enemyFish(self, 200, "left", "pinkFish.png", 15, 1, 0)
+        self.pinkFish3 = enemyFish(self, 240, "right", "pinkFish.png", 15, 4, 0)
+        self.blueFish = enemyFish(self, 50, "left", "blueFish.png", 60, 1, 4)
+
+        self.blueFish = enemyFish(self, 50, "left", "blueFish.png", 60, 1, 4)
+        self.blueFish2 = enemyFish(self, 400, "left", "blueFish.png", 60, 5, 4)
+        self.blueFish3 = enemyFish(self, 320, "right", "blueFish.png", 60, 3, 4)
+
+        self.greenFish = enemyFish(self, 150, "right", "greenFish.png", 35, 4, 2)
+        self.greenFish2 = enemyFish(self, 260, "left", "greenFish.png", 35, 1, 2)
+        self.greenFish3 = enemyFish(self, 500, "right", "greenFish.png", 35, 2, 2)
+
+        self.goldFish = enemyFish(self, 200, "left", "goldFish.png", 120, 3, 6)
+        self.goldFish2 = enemyFish(self, 450, "left", "goldFish.png", 120, 5, 6)
+        self.goldFish3 = enemyFish(self, 340, "right", "goldFish.png", 120, 2, 6)
+
         self.fishes.add(self.pinkFish)
+        self.fishes.add(self.pinkFish2)
+        self.fishes.add(self.pinkFish3)
+
         self.fishes.add(self.blueFish)
+        self.fishes.add(self.blueFish2)
+        self.fishes.add(self.blueFish3)
+
         self.fishes.add(self.greenFish)
+        self.fishes.add(self.greenFish2)
+        self.fishes.add(self.greenFish3)
+
         self.fishes.add(self.goldFish)
+        self.fishes.add(self.goldFish2)
+        self.fishes.add(self.goldFish3)
+
         
         done = False
         pygame.key.set_repeat(1, 10)
@@ -45,17 +71,16 @@ class GameSpace:
                     elif event.key == pygame.K_LEFT:
                         self.playerFish.move(-5, 0)
 
+            self.playerFish.tick()
             self.fishes.update()
-            pygame.sprite.spritecollide(self.playerFish, self.fishes, True)
-#            self.blueFish.tick()
-#            self.greenFish.tick()
-#            self.pinkFish.tick()
+            #pygame.sprite.spritecollide(self.playerFish, self.fishes, True)
+
             self.screen.blit(self.oceanImage, (0,0))
             self.fishes.draw(self.screen)
             #points
             text = pygame.font.SysFont("monospace", 20)
-            label = text.render(self.playerFish.points, 1, (255, 255, 0))
-            self.screen.blit(label, (50, 50))
+            #label = text.render(self.playerFish.points, 1, (255, 255, 0))
+            #self.screen.blit(label, (50, 50))
 #            self.screen.blit(self.pinkFish.image, self.pinkFish.rect)
 #            self.screen.blit(self.blueFish.image, self.blueFish.rect)
 #            self.screen.blit(self.greenFish.image, self.greenFish.rect)
@@ -72,7 +97,7 @@ class GameSpace:
         self.screen.blit(label, (100, 100))
         pygame.display.flip()
         pygame.time.wait(5000)
-        sys.exit()
+        #sys.exit()
 
 if __name__ == "__main__":
     gs = GameSpace()

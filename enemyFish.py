@@ -1,29 +1,38 @@
 import pygame
 
 class enemyFish(pygame.sprite.Sprite):
-    def __init__(self, gs, yc, direction, filename, sz):
+    def __init__(self, gs, yc, direction, filename, sz, speed, eat_score):
         pygame.sprite.Sprite.__init__(self)
         self.gs = gs
         self.image = pygame.image.load(filename)
         self.image = pygame.transform.scale(self.image, (sz, sz)) #30 
         self.rect = self.image.get_rect(center = (50, 50))
         self.size = sz
-
+        self.yc = yc
         self.direction = direction
-        self.rect.y = yc
+        self.rect.y = yc #starting y coordinate of the fish 
+        self.speed = speed  # can specify how fast the fish is moving 
+        self.eat_score = eat_score #specifies if it can be eaten or not by player
         if self.direction == "left":
             self.rect.x = 640
         else:
             self.rect.x = 0
     
     def update(self):
+
+        # move the fish based on inputted speed 
         if(self.direction == "left"):
-            self.rect.x -= 2
+            self.rect.x -= self.speed
         else:
-            self.rect.x += 2
-        if self.rect.colliderect(self.gs.playerFish.rect):
-            if self.gs.playerFish.size >= self.size:
-                self.gs.playerFish.change_size()
-#                pygame.sprite.Sprite.kill(self)#not working
+            self.rect.x += self.speed
+
+        #check if the fish has gone off the screen    
+        if self.rect.x < -120 or self.rect.x > 770:
+            # if fish is moving left, place on right side 
+            if self.direction == "left":
+                self.rect.x = 760
             else:
-                self.gs.end_game()
+                self.rect.x = -30 #else place on left side 
+            self.rect.y = self.yc
+
+            self.gs.fishes.add(self) #add the fish to the group 
