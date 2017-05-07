@@ -1,0 +1,83 @@
+import pygame
+
+#smallest
+class enemyFish(pygame.sprite.Sprite):
+    def __init__(self, gs, yc, direction, filename, sz):
+        self.gs = gs
+        self.image = pygame.image.load(filename)
+        self.image = pygame.transform.scale(self.image, (sz, sz)) #30 
+        self.rect = self.image.get_rect(center = (50, 50))
+        self.size = sz
+
+        self.direction = direction
+        self.rect.y = yc
+        if self.direction == "left":
+            self.rect.x = 640
+        else:
+            self.rect.x = 0
+    
+    def tick(self):
+        if(self.direction == "left"):
+            self.rect.x -= 2
+        else:
+            self.rect.x += 2  
+        if self.rect.colliderect(self.gs.playerFish.rect):
+            if self.gs.playerFish.size >= self.size:
+                self.gs.playerFish.change_size()
+            else:
+                self.gs.end_game()
+'''
+class blueFish(pygame.sprite.Sprite):
+    def __init__(self, gs, yc, direction):
+        self.gs = gs
+        self.image = pygame.image.load("blueFish.png")
+        self.image = pygame.transform.scale(self.image, (60, 60)) 
+        self.rect = self.image.get_rect(center = (50, 50))
+        self.size = 60
+
+        self.direction = direction
+        self.rect.y = yc
+        if self.direction == "left":
+            self.rect.x = 640
+        else:
+            self.rect.x = 0
+    
+    def tick(self):
+        if(self.direction == "left"):
+            self.rect.x -= 2
+        else:
+            self.rect.x += 2  
+        if self.rect.colliderect(self.gs.playerFish.rect):
+            if self.gs.playerFish.size >= self.size:
+                self.gs.playerFish.change_size()
+                
+            else:
+                self.gs.end_game()
+
+class pinkFish(pygame.sprite.Sprite):
+        def __init__(self, gs, yc, direction):
+        self.gs = gs
+        self.image = pygame.image.load("pinkFish.png")
+        self.image = pygame.transform.scale(self.image, (60, 60)) 
+        self.rect = self.image.get_rect(center = (50, 50))
+        self.size = 60
+
+        self.direction = direction
+        self.rect.y = yc
+        if self.direction == "left":
+            self.rect.x = 640
+        else:
+            self.rect.x = 0
+    
+    def tick(self):
+        if(self.direction == "left"):
+            self.rect.x -= 2
+        else:
+            self.rect.x += 2  
+        if self.rect.colliderect(self.gs.playerFish.rect):
+            if self.gs.playerFish.size >= self.size:
+                self.gs.playerFish.change_size()
+                
+            else:
+                self.gs.end_game()
+'''

@@ -2,6 +2,7 @@ import pygame
 
 class enemyFish(pygame.sprite.Sprite):
     def __init__(self, gs, yc, direction, filename, sz):
+        pygame.sprite.Sprite.__init__(self)
         self.gs = gs
         self.image = pygame.image.load(filename)
         self.image = pygame.transform.scale(self.image, (sz, sz)) #30 
@@ -15,13 +16,14 @@ class enemyFish(pygame.sprite.Sprite):
         else:
             self.rect.x = 0
     
-    def tick(self):
+    def update(self):
         if(self.direction == "left"):
             self.rect.x -= 2
         else:
-            self.rect.x += 2  
+            self.rect.x += 2
         if self.rect.colliderect(self.gs.playerFish.rect):
             if self.gs.playerFish.size >= self.size:
                 self.gs.playerFish.change_size()
+#                pygame.sprite.Sprite.kill(self)#not working
             else:
                 self.gs.end_game()
