@@ -1,7 +1,9 @@
 import sys
 import pygame
 import math
-from blueFish import blueFish
+#from enemyFish import blueFish
+#from enemyFish import greenFish
+from enemyFish import enemyFish
 from playerFish import playerFish
 
 class GameSpace:
@@ -16,7 +18,9 @@ class GameSpace:
 
         # initialize all game objects
         self.playerFish = playerFish(self, 15)      #set size to 15
-        self.blueFish = blueFish(self, 50, "left")
+        self.pinkFish = enemyFish(self, 20, "right", "pinkFish.png", 15)
+        self.blueFish = enemyFish(self, 50, "left", "blueFish.png", 60)
+        self.greenFish = enemyFish(self, 150, "right", "greenFish.png", 30)
 
         done = False
         pygame.key.set_repeat(1, 10)
@@ -36,13 +40,20 @@ class GameSpace:
                         self.playerFish.move(-5, 0)
 
             self.blueFish.tick()
+            self.greenFish.tick()
+            self.pinkFish.tick()
             self.screen.blit(oceanImage, (0,0))
             self.screen.blit(self.playerFish.image, self.playerFish.rect)
             self.screen.blit(self.blueFish.image, self.blueFish.rect)
+            self.screen.blit(self.greenFish.image, self.greenFish.rect)
+            self.screen.blit(self.pinkFish.image, self.pinkFish.rect)
             pygame.display.flip()
 
         #game.display.set_caption("Fish Fun")
         #self.screen.fill(self.black)
+
+    def end_game(self):
+        sys.exit()
 
 if __name__ == "__main__":
     gs = GameSpace()
