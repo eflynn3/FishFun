@@ -28,21 +28,25 @@ class playerFish(pygame.sprite.Sprite):
             if eat_score == 0:  #red fish 
                 if eat_score + 1 == self.size_score:
                     self.image = pygame.image.load("playerSmall.png")
+                self.points += (eat_score + 2)
                 pygame.sprite.Sprite.kill(f)
 
             elif eat_score == 2: #green fish 
                 if eat_score == self.size_score:
                     self.image = pygame.image.load("playerMedium.png")
+                self.points += (eat_score + 2)
                 pygame.sprite.Sprite.kill(f)
 
             elif eat_score == 4: #blue fish 
                 if eat_score == self.size_score:
                     self.image = pygame.image.load("playerLarge.png")
+                self.points += (eat_score + 2)
                 pygame.sprite.Sprite.kill(f)
 
             elif eat_score == 6: #gold fish 
                 if eat_score == self.size_score:
                     self.image = pygame.image.load("playerLarge.png") #need to make another image for this 
+                self.points += (eat_score + 2)
                 pygame.sprite.Sprite.kill(f)
         
         else:

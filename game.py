@@ -56,37 +56,8 @@ class GameSpace:
         
         done = False
         pygame.key.set_repeat(1, 10)
-        while not done:
-            self.clock.tick(60)
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    done = True
-                elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_DOWN:
-                        self.playerFish.move(0, 5)
-                    elif event.key == pygame.K_UP:
-                        self.playerFish.move(0, -5)
-                    elif event.key == pygame.K_RIGHT:
-                        self.playerFish.move(5, 0)
-                    elif event.key == pygame.K_LEFT:
-                        self.playerFish.move(-5, 0)
-
-            self.playerFish.tick()
-            self.fishes.update()
-            #pygame.sprite.spritecollide(self.playerFish, self.fishes, True)
-
-            self.screen.blit(self.oceanImage, (0,0))
-            self.fishes.draw(self.screen)
-            #points
-            text = pygame.font.SysFont("monospace", 20)
-            #label = text.render(self.playerFish.points, 1, (255, 255, 0))
-            #self.screen.blit(label, (50, 50))
-#            self.screen.blit(self.pinkFish.image, self.pinkFish.rect)
-#            self.screen.blit(self.blueFish.image, self.blueFish.rect)
-#            self.screen.blit(self.greenFish.image, self.greenFish.rect)
-            self.screen.blit(self.playerFish.image, self.playerFish.rect)
-            pygame.display.flip()
-
+        while not done: #eventually get rid of this
+            self.game_loop()
         #game.display.set_caption("Fish Fun")
         #self.screen.fill(self.black)
 
@@ -99,6 +70,36 @@ class GameSpace:
         pygame.time.wait(5000)
         #sys.exit()
 
+    def game_loop(self):
+        self.clock.tick(60)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_DOWN:
+                    self.playerFish.move(0, 5)
+                elif event.key == pygame.K_UP:
+                    self.playerFish.move(0, -5)
+                elif event.key == pygame.K_RIGHT:
+                    self.playerFish.move(5, 0)
+                elif event.key == pygame.K_LEFT:
+                    self.playerFish.move(-5, 0)
+                    
+        self.playerFish.tick()
+        self.fishes.update()
+        #pygame.sprite.spritecollide(self.playerFish, self.fishes, True)
+
+        self.screen.blit(self.oceanImage, (0,0))
+        self.fishes.draw(self.screen)
+        #points
+        mytext = pygame.font.SysFont("monospace", 20)
+        score = "Score: " + str(self.playerFish.points)
+        label = mytext.render(score, 1, (0, 0, 0))
+        self.screen.blit(label, (675, 30))
+        self.screen.blit(self.playerFish.image, self.playerFish.rect)
+        pygame.display.flip()
+
+        
 if __name__ == "__main__":
     gs = GameSpace()
     gs.main()
