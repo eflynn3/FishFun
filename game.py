@@ -7,9 +7,10 @@ from enemyFish import enemyFish
 from playerFish import playerFish
 
 class GameSpace:
-    def main(self):
+    def main(self, playerNumber):
         #initialize gamespace
         pygame.init()
+        self.playerNumber = playerNumber
         self.clock = pygame.time.Clock()
         self.oceanImage = pygame.image.load("oceanBackground.png")
         self.size = self.width, self.height = 800, 600
@@ -71,7 +72,7 @@ class GameSpace:
         label = mytext.render("You Lost!", 1, (255, 255, 0))
         self.screen.blit(label, (100, 100))
         pygame.display.flip()
-        pygame.time.wait(5000)
+        #pygame.time.wait(5000)
         #sys.exit()
 
     def game_loop(self):
