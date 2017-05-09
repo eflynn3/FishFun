@@ -13,6 +13,8 @@ class GameConnection(Protocol):
     def connectionMade(self):
         print "Created game connection"
         playGame.main("1")
+        gameLoop = LoopingCall(playGame.gameLoop)
+        gameLoop.start(0.0166)
     def dataReceived(self, data):
     	print "data received"
 

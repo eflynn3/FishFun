@@ -7,6 +7,10 @@ import sys
 START_PORT = 40111
 GAME_PORT = 40126
 HOST = ""
+
+playGame = GameSpace()
+
+
 class StartConnection(Protocol):
     def connectionMade(self):
 		print "client connection made"        
@@ -33,7 +37,10 @@ class StartFactory(ClientFactory):
 class GameConnection(Protocol):
     def connectionMade(self):
         print "connected to game host"
-
+        playGame.main("2")
+        gameLoop = LoopingCall(playGame.gameLoop)
+        gameLoop.start(0.0166)
+        
     def dataReceived(self, data):
        #game.get_remote(data)
        print "client game received"
