@@ -6,7 +6,7 @@ class playerFish(pygame.sprite.Sprite):
         self.image1 = pygame.image.load("playerOriginal.png")
         #self.image = pygame.transform.scale(self.image, (40, 20))
         self.image2 = pygame.image.load("secondPlayerOriginal.png")
-        self.rect = self.image.get_rect()
+        self.rect = self.image1.get_rect()
         self.rect.x = 50
         self.rect.y = 50
 
