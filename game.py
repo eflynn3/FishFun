@@ -37,6 +37,8 @@ class GameSpace:
         self.goldFish2 = enemyFish(self, 450, "left", "goldFish.png", 120, 5, 6)
         self.goldFish3 = enemyFish(self, 340, "right", "goldFish.png", 120, 2, 6)
 
+        self.shark1 = enemyFish(self, 418, "right", "shark3.png", 150, 3, 8)
+
         self.fishes.add(self.pinkFish)
         self.fishes.add(self.pinkFish2)
         self.fishes.add(self.pinkFish3)
@@ -52,6 +54,8 @@ class GameSpace:
         self.fishes.add(self.goldFish)
         self.fishes.add(self.goldFish2)
         self.fishes.add(self.goldFish3)
+
+        self.fishes.add(self.shark1)
 
         
         done = False
