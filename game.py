@@ -92,7 +92,6 @@ class GameSpace:
                     
         self.playerFish.tick()
         self.fishes.update()
-        #pygame.sprite.spritecollide(self.playerFish, self.fishes, True)
 
         self.screen.blit(self.oceanImage, (0,0))
         self.fishes.draw(self.screen)
