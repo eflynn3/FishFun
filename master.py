@@ -9,6 +9,21 @@ GAME_PORT = 40126
 
 playGame = GameSpace()
 
+class StartConnection(Protocol):
+    def connectionMade(self):
+        print "Other player joined..."
+        self.transport.write("start")
+        reactor.listenTCP(GAME_PORT, GameFactory()) # Initial connection made to 
+    def dataReceived(self, data):
+        pass
+
+class StartFactory(ClientFactory):
+    def __init__(self):
+        self.myConn = StartConnection()
+
+    def buildProtocol(self, addr):
+        return self.myConn
+
 class GameConnection(Protocol):
     def connectionMade(self):
         print "Created game connection"
@@ -24,26 +39,6 @@ class GameFactory(ClientFactory):
 
     def buildProtocol(self, addr):
     	return self.myConn
-
-
-# initial connection for listening for a client, before beginning game connection
-# (perhaps unnecessary and redundant)
-class StartConnection(Protocol):
-    def connectionMade(self):
-        print "Other player joined..."
-        self.transport.write("start")
-        reactor.listenTCP(GAME_PORT, GameFactory()) # Initial connection made to 
-    def dataReceived(self, data):
-        pass
-
-class StartFactory(ClientFactory):
-    def __init__(self):
-    	self.myConn = StartConnection()
-
-    def buildProtocol(self, addr):
-    	return self.myConn
-
-##################################
 
 if __name__ == '__main__':
 
