@@ -11,7 +11,7 @@ class GameSpace:
         #initialize gamespace
         pygame.init()
         self.playerNumber = playerNumber
-        self.clock = pygame.time.Clock()
+        #self.clock = pygame.time.Clock()
         self.oceanImage = pygame.image.load("oceanBackground.png")
         self.size = self.width, self.height = 800, 600
         self.screen = pygame.display.set_mode(self.size)
@@ -19,7 +19,7 @@ class GameSpace:
 
         self.fishes = pygame.sprite.Group()
         # initialize all game objects
-        self.playerFish = playerFish(self, 15)      #set size to 15
+        self.playerFish = playerFish(self, self.playerNumber)      #set size to 15
         
         self.pinkFish = enemyFish(self, 20, "right", "pinkFish.png", 15, 2, 0)
         self.pinkFish2 = enemyFish(self, 200, "left", "pinkFish.png", 15, 1, 0)
@@ -34,9 +34,9 @@ class GameSpace:
         self.greenFish2 = enemyFish(self, 260, "left", "greenFish.png", 35, 1, 2)
         self.greenFish3 = enemyFish(self, 500, "right", "greenFish.png", 35, 2, 2)
 
-        self.goldFish = enemyFish(self, 200, "left", "goldFish.png", 120, 3, 6)
-        self.goldFish2 = enemyFish(self, 450, "left", "goldFish.png", 120, 5, 6)
-        self.goldFish3 = enemyFish(self, 340, "right", "goldFish.png", 120, 2, 6)
+        self.goldFish = enemyFish(self, 200, "left", "goldFishFinal.png", 70, 3, 6)
+        self.goldFish2 = enemyFish(self, 450, "left", "goldFishFinal.png", 70, 5, 6)
+        self.goldFish3 = enemyFish(self, 340, "right", "goldFishFinal.png", 70, 2, 6)
 
         self.shark1 = enemyFish(self, 418, "right", "shark3.png", 150, 3, 8)
 
@@ -60,9 +60,9 @@ class GameSpace:
 
         
         done = False
-        pygame.key.set_repeat(1, 10)
-        while not done: #eventually get rid of this
-            self.game_loop()
+        #pygame.key.set_repeat(1, 10)
+        #while not done: #eventually get rid of this
+         #   self.game_loop()
         #game.display.set_caption("Fish Fun")
         #self.screen.fill(self.black)
 
@@ -75,20 +75,20 @@ class GameSpace:
         #pygame.time.wait(5000)
         #sys.exit()
 
-    def game_loop(self):
-        self.clock.tick(60)
+    def gameLoop(self):
+        #self.clock.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 done = True
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_DOWN:
-                    self.playerFish.move(0, 5)
+                    self.playerFish.move(0, 5, self.playerNumber)
                 elif event.key == pygame.K_UP:
-                    self.playerFish.move(0, -5)
+                    self.playerFish.move(0, -5, self.playerNumber)
                 elif event.key == pygame.K_RIGHT:
-                    self.playerFish.move(5, 0)
+                    self.playerFish.move(5, 0, self.playerNumber)
                 elif event.key == pygame.K_LEFT:
-                    self.playerFish.move(-5, 0)
+                    self.playerFish.move(-5, 0, self.playerNumber)
                     
         self.playerFish.tick()
         self.fishes.update()
@@ -102,9 +102,5 @@ class GameSpace:
         label = mytext.render(score, 1, (0, 0, 0))
         self.screen.blit(label, (675, 30))
         self.screen.blit(self.playerFish.image, self.playerFish.rect)
+        self.screen.blit(self.playerFish.image2, self.playerFish.rect2)
         pygame.display.flip()
-
-        
-if __name__ == "__main__":
-    gs = GameSpace()
-    gs.main()

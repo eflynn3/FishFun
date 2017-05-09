@@ -1,7 +1,7 @@
 from twisted.internet.protocol import ClientFactory
 from twisted.internet.protocol import Protocol
 from twisted.internet import reactor 
-from twisted.internet.defer import DeferredQueue
+from twisted.internet.task import LoopingCall
 from game import GameSpace
 
 START_PORT = 40111

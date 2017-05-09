@@ -1,6 +1,8 @@
 from twisted.internet.protocol import ClientFactory
 from twisted.internet.protocol import Protocol
 from twisted.internet import reactor 
+from twisted.internet.task import LoopingCall
+
 from game import GameSpace
 import sys
 
@@ -40,7 +42,7 @@ class GameConnection(Protocol):
         playGame.main("2")
         gameLoop = LoopingCall(playGame.gameLoop)
         gameLoop.start(0.0166)
-        
+
     def dataReceived(self, data):
        #game.get_remote(data)
        print "client game received"

@@ -3,23 +3,27 @@ import pygame
 class playerFish(pygame.sprite.Sprite):
     def __init__(self, gs, player):
         self.player = player
-        self.image1 = pygame.image.load("playerOriginal.png")
+        self.image = pygame.image.load("playerOriginal.png")
         #self.image = pygame.transform.scale(self.image, (40, 20))
         self.image2 = pygame.image.load("secondPlayerOriginal.png")
-        self.rect = self.image1.get_rect()
+        self.rect = self.image.get_rect()
         self.rect.x = 50
         self.rect.y = 50
 
         self.rect2 = self.image2.get_rect()
-        self.rect.x = 500
-        self.rect.y = 50
+        self.rect2.x = 500
+        self.rect2.y = 50
         self.points = 0
         self.gs = gs
         self.size_score = 0
 
-    def move(self, xc, yc):
-        self.rect.x += xc
-        self.rect.y += yc
+    def move(self, xc, yc, player):
+        if player == "1":
+            self.rect.x += xc
+            self.rect.y += yc
+        elif player == "2":
+            self.rect2.x += xc
+            self.rect2.y += yc
 
     def add_points(self, points):
         self.points += points
