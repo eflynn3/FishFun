@@ -20,6 +20,7 @@ class GameSpace:
         self.connection = connection
         self.fishes = pygame.sprite.Group()
         self.remove_sprite = 0
+        self.end = 0
         self.image2 = "secondPlayerOriginal.png"
         self.image = "playerOriginal.png"
 
@@ -75,17 +76,22 @@ class GameSpace:
 
     def end_game(self):
         self.screen.blit(self.oceanImage, (0,0))
+        if self.playerFish.points > self.playerFish.points2:
+            text = "Player 1 is the Winner!"
+        else:
+            text = "Player 2 is the Winner!"
+
         mytext = pygame.font.SysFont("monospace", 20)
-        label = mytext.render("You Lost!", 1, (255, 255, 0))
+        label = mytext.render(text, 1, (255, 255, 0))
         self.screen.blit(label, (100, 100))
-        sleep(10)
+        time.sleep(10)
         pygame.display.flip()
         sys.exit()
 
     def getData(self):
         x = str(self.playerFish.rect.x)
         y = str(self.playerFish.rect.y)
-        Str = x + ":" + y + "|" + str(self.remove_sprite) + "#" + self.image + "$" + str(self.points)
+        Str = x + ":" + y + ":" + str(self.remove_sprite) + ":" + self.image + ":" + str(self.points) + ":" + str(self.playerFish.end)
         self.connection.transport.write(Str)
         self.remove_sprite = 0
 
@@ -93,42 +99,44 @@ class GameSpace:
         x = str(self.playerFish.rect2.x)
         y = str(self.playerFish.rect2.y)
 
-        Str = x + ":" + y + "|" + str(self.remove_sprite) + "#" + self.image2 + "$" + str(self.points2)
+        Str = x + ":" + y + ":" + str(self.remove_sprite) + ":" + self.image2 + ":" + str(self.points2) + ":" + str(self.playerFish.end)
         self.connection.transport.write(Str)
         self.remove_sprite = 0
 
     def updateFish(self, data):
-        s = data.split("$")[0]
-        score = data.split("$")[1]
-        d = s.split("#")[0]
-        img = s.split("#")[1]
-        i = d.split("|")[0]
-        ID = int(d.split("|")[1])
-        x = i.split(":")[0]
-        y = i.split(":")[1]
+
+        d = data.split(":")
+        x = d[0]
+        y = d[1]
+        ID = d[2]
+        img = d[3]
+        score = d[4]
+        end = d[5]
+
         self.playerFish.rect.x = int(x)
         self.playerFish.rect.y = int(y)
         self.playerFish.image = pygame.image.load(img)
         self.points = int(score)
+        self.end = end
 
         for f in self.fishes:
             if f.sprite_id == ID:
                 pygame.sprite.Sprite.kill(f)
 
     def updateFish2(self, data):
-        s = data.split("$")[0]
-        score = data.split("$")[1]
-        d = s.split("#")[0]
-        img = s.split("#")[1]
-        i = d.split("|")[0]
-        ID = int(d.split("|")[1])
-        x = i.split(":")[0]
-        y = i.split(":")[1]
+        d = data.split(":")
+        x = d[0]
+        y = d[1]
+        ID = d[2]
+        img = d[3]
+        score = d[4]
+        end = d[5]
 
         self.playerFish.rect2.x = int(x)
         self.playerFish.rect2.y = int(y)
         self.playerFish.image2 = pygame.image.load(img)
         self.points2 = int(score)
+        self.end = end
 
         for f in self.fishes:
             if f.sprite_id == ID:
@@ -152,7 +160,8 @@ class GameSpace:
         self.playerFish.tick(self.playerNumber, self.connection)
         
         self.fishes.update()
-
+        if len(self.fishes) == 0:
+            self.playerFish.end = 1
         self.screen.blit(self.oceanImage, (0,0))
         self.fishes.draw(self.screen)
         #points
@@ -168,3 +177,19 @@ class GameSpace:
         self.screen.blit(self.playerFish.image, self.playerFish.rect)
         self.screen.blit(self.playerFish.image2, self.playerFish.rect2)
         pygame.display.flip()
+
+        if self.end == 1:
+            print "in"
+            self.screen.blit(self.oceanImage, (0,0))
+            if self.playerFish.points > self.playerFish.points2:
+                text = "Player 1 is the Winner!"
+            else:
+                text = "Player 2 is the Winner!"
+
+            mytext = pygame.font.SysFont("monospace", 20)
+            label = mytext.render(text, 1, (255, 255, 0))
+            self.screen.blit(label, (100, 100))
+            pygame.display.flip()
+            time.sleep(10)
+            sys.exit()
+

@@ -16,6 +16,7 @@ class playerFish(pygame.sprite.Sprite):
         self.points = 0
         self.points2 = 0
         self.gs = gs
+        self.end = 0
         self.size_score = 0
 
     def move(self, xc, yc, player):
@@ -72,10 +73,12 @@ class playerFish(pygame.sprite.Sprite):
                     self.gs.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
                 elif eat_score == 8: #shark
-                    self.gs.end_game()
+                    self.end = 1
+                    #self.gs.end_game()
             
             else:
-                self.gs.end_game()
+                self.end = 1
+                #self.gs.end_game()
             
             self.size_score += 1
 
@@ -120,10 +123,13 @@ class playerFish(pygame.sprite.Sprite):
 
                     pygame.sprite.Sprite.kill(f)
                 elif eat_score == 8: #shark
-                    self.gs.end_game()
+                    self.end = 1
+                    #self.gs.end_game()
             
             else:
-                self.gs.end_game()
+                self.end = 1
+
+                #self.gs.end_game()
             
             self.size_score += 1
     
