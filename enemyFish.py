@@ -1,3 +1,7 @@
+#Programming paradigms
+#Enemy fish for all fish in game 
+#Erin Flynn and Erin Turley
+
 import pygame
 
 class enemyFish(pygame.sprite.Sprite):
@@ -7,20 +11,20 @@ class enemyFish(pygame.sprite.Sprite):
         self.image = pygame.image.load(filename)
         self.image = pygame.transform.scale(self.image, (sz, sz)) #30 
         self.rect = self.image.get_rect(center = (50, 50))
-        self.size = sz
-        self.yc = yc
+        self.size = sz #size of fish
+        self.yc = yc 
         self.direction = direction
         self.rect.y = yc #starting y coordinate of the fish 
         self.speed = speed  # can specify how fast the fish is moving 
         self.eat_score = eat_score #specifies if it can be eaten or not by player
-        self.sprite_id = sprite_id
+        self.sprite_id = sprite_id #specifies id so it can be reference for removal
+        
         if self.direction == "left":
-            self.rect.x = 640
+            self.rect.x = 640 #start sprite on right side of screen
         else:
             self.rect.x = 0
     
     def update(self):
-
         # move the fish based on inputted speed 
         if(self.direction == "left"):
             self.rect.x -= self.speed
