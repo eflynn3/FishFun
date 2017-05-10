@@ -46,7 +46,8 @@ class GameSpace:
         self.goldFish2 = enemyFish(self, 450, "left", "goldFishFinal.png", 70, 5, 6, 12)
         self.goldFish3 = enemyFish(self, 340, "right", "goldFishFinal.png", 70, 2, 6, 13)
 
-        self.shark1 = enemyFish(self, 418, "right", "shark3.png", 90, 3, 8, 14)
+        self.shark1 = enemyFish(self, 418, "right", "shark.png", 100, 3, 8, 14)
+        self.shark2 = enemyFish(self, 200, "left", "shark.png", 100, 2, 8, 15)
 
         self.fishes.add(self.pinkFish)
         self.fishes.add(self.pinkFish2)
@@ -65,6 +66,8 @@ class GameSpace:
         self.fishes.add(self.goldFish3)
 
         self.fishes.add(self.shark1)
+        self.fishes.add(self.shark2)
+
         
         pygame.key.set_repeat(1, 10)
 
@@ -76,22 +79,26 @@ class GameSpace:
 
     def end_game(self):
         self.screen.blit(self.oceanImage, (0,0))
-        if self.playerFish.points > self.playerFish.points2:
-            text = "Player 1 is the Winner!"
-        else:
-            text = "Player 2 is the Winner!"
-
         mytext = pygame.font.SysFont("monospace", 20)
-        label = mytext.render(text, 1, (255, 255, 0))
-        self.screen.blit(label, (100, 100))
-        time.sleep(10)
+        score = "Blue: " + str(self.points)
+        label = mytext.render(score, 1, (0, 0, 0))
+
+        score2 = "Red: " + str(self.points2)
+        label2 = mytext.render(score2, 1, (0, 0, 0))
+        self.screen.blit(label, (70, 30))
+        self.screen.blit(label2, (600, 30))
+        mytext = pygame.font.SysFont("monospace", 50)
+
+        label = mytext.render("Game Over!", 1, (255, 255, 0))
+        self.screen.blit(label, (250, 200))
         pygame.display.flip()
+        #time.sleep(10)
         sys.exit()
 
     def getData(self):
         x = str(self.playerFish.rect.x)
         y = str(self.playerFish.rect.y)
-        Str = x + ":" + y + ":" + str(self.remove_sprite) + ":" + self.image + ":" + str(self.points) + ":" + str(self.playerFish.end)
+        Str = x + ":" + y + "|" + str(self.remove_sprite) + "#" + self.image + "$" + str(self.points) + "@" + str(self.playerFish.end)
         self.connection.transport.write(Str)
         self.remove_sprite = 0
 
@@ -99,19 +106,21 @@ class GameSpace:
         x = str(self.playerFish.rect2.x)
         y = str(self.playerFish.rect2.y)
 
-        Str = x + ":" + y + ":" + str(self.remove_sprite) + ":" + self.image2 + ":" + str(self.points2) + ":" + str(self.playerFish.end)
+        Str = x + ":" + y + "|" + str(self.remove_sprite) + "#" + self.image2 + "$" + str(self.points2) + "@" + str(self.playerFish.end)
         self.connection.transport.write(Str)
         self.remove_sprite = 0
 
     def updateFish(self, data):
-
-        d = data.split(":")
-        x = d[0]
-        y = d[1]
-        ID = d[2]
-        img = d[3]
-        score = d[4]
-        end = d[5]
+        end = data.split("@")[1]
+        dat = data.split("@")[0]
+        s = dat.split("$")[0]
+        score = dat.split("$")[1]
+        d = s.split("#")[0]
+        img = s.split("#")[1]
+        i = d.split("|")[0]
+        ID = int(d.split("|")[1])
+        x = i.split(":")[0]
+        y = i.split(":")[1]
 
         self.playerFish.rect.x = int(x)
         self.playerFish.rect.y = int(y)
@@ -124,13 +133,16 @@ class GameSpace:
                 pygame.sprite.Sprite.kill(f)
 
     def updateFish2(self, data):
-        d = data.split(":")
-        x = d[0]
-        y = d[1]
-        ID = d[2]
-        img = d[3]
-        score = d[4]
-        end = d[5]
+        end = data.split("@")[1]
+        dat = data.split("@")[0]
+        s = dat.split("$")[0]
+        score = dat.split("$")[1]
+        d = s.split("#")[0]
+        img = s.split("#")[1]
+        i = d.split("|")[0]
+        ID = int(d.split("|")[1])
+        x = i.split(":")[0]
+        y = i.split(":")[1]
 
         self.playerFish.rect2.x = int(x)
         self.playerFish.rect2.y = int(y)
@@ -160,8 +172,7 @@ class GameSpace:
         self.playerFish.tick(self.playerNumber, self.connection)
         
         self.fishes.update()
-        if len(self.fishes) == 0:
-            self.playerFish.end = 1
+
         self.screen.blit(self.oceanImage, (0,0))
         self.fishes.draw(self.screen)
         #points
@@ -176,20 +187,19 @@ class GameSpace:
 
         self.screen.blit(self.playerFish.image, self.playerFish.rect)
         self.screen.blit(self.playerFish.image2, self.playerFish.rect2)
-        pygame.display.flip()
-
-        if self.end == 1:
-            print "in"
+        if self.end == "1":
             self.screen.blit(self.oceanImage, (0,0))
-            if self.playerFish.points > self.playerFish.points2:
-                text = "Player 1 is the Winner!"
-            else:
-                text = "Player 2 is the Winner!"
+            score = "Blue: " + str(self.points)
+            label = mytext.render(score, 1, (0, 0, 0))
 
-            mytext = pygame.font.SysFont("monospace", 20)
-            label = mytext.render(text, 1, (255, 255, 0))
-            self.screen.blit(label, (100, 100))
+            score2 = "Red: " + str(self.points2)
+            label2 = mytext.render(score2, 1, (0, 0, 0))
+            self.screen.blit(label, (70, 30))
+            self.screen.blit(label2, (600, 30))
+            mytext = pygame.font.SysFont("monospace", 50)
+            label = mytext.render("Game Over!", 1, (255, 255, 0))
+            self.screen.blit(label, (250, 200))
             pygame.display.flip()
-            time.sleep(10)
+            #time.sleep(10)
             sys.exit()
-
+        pygame.display.flip()
