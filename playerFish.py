@@ -1,5 +1,5 @@
 import pygame
-
+import pickle
 class playerFish(pygame.sprite.Sprite):
     def __init__(self, gs, player):
         self.player = player
@@ -21,19 +21,21 @@ class playerFish(pygame.sprite.Sprite):
         if player == "1":
             self.rect.x += xc
             self.rect.y += yc
+
         elif player == "2":
             self.rect2.x += xc
             self.rect2.y += yc
+
+    def update(self, x, y):
+        self.rect.x = x
+        self.rext.y = y
 
     def add_points(self, points):
         self.points += points
     
     def change_size(self, eat_score, f, player):
-        print(self.size_score)
-        print(eat_score)
         if player == "1":
             if self.size_score >= eat_score:
-                print("in")
                 if eat_score == 0:  #red fish 
                     if eat_score + 1 == self.size_score:
                         self.image = pygame.image.load("playerSmall.png")
@@ -67,28 +69,27 @@ class playerFish(pygame.sprite.Sprite):
 
         elif player == "2":
             if self.size_score >= eat_score:
-                print("in")
                 if eat_score == 0:  #red fish 
                     if eat_score + 1 == self.size_score:
-                        self.image2 = pygame.image2.load("secondPlayerSmall.png")
+                        self.image2 = pygame.image.load("secondPlayerSmall.png")
                     self.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 2: #green fish 
                     if eat_score == self.size_score:
-                        self.image = pygame.image2.load("secondPlayerMedium.png")
+                        self.image2 = pygame.image.load("secondPlayerMedium.png")
                     self.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 4: #blue fish 
                     if eat_score == self.size_score:
-                        self.image = pygame.image2.load("secondPlayerLarge.png")
+                        self.image2 = pygame.image.load("secondPlayerLarge.png")
                     self.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 6: #gold fish 
                     if eat_score == self.size_score:
-                        self.image = pygame.image2.load("secondPlayerLarge.png") #need to make another image for this 
+                        self.image2 = pygame.image.load("secondPlayerLarge.png") #need to make another image for this 
                     self.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
                 elif eat_score == 8: #shark
@@ -98,13 +99,16 @@ class playerFish(pygame.sprite.Sprite):
                 self.gs.end_game()
             
             self.size_score += 1
-    def tick(self, player):
+    
+    def tick(self, player, connection):
         if player == "1":
             for f in self.gs.fishes:
                 if self.rect.colliderect(f.rect):
+                    self.gs.remove_sprite = f.sprite_id
                     self.change_size(f.eat_score, f, player)
         if player == "2":
             for f in self.gs.fishes:
-                if self.rect.colliderect(f.rect2):
+                if self.rect2.colliderect(f.rect):
+                    self.gs.remove_sprite = f.sprite_id
                     self.change_size(f.eat_score, f, player)            
     

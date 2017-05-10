@@ -1,7 +1,7 @@
 import pygame
 
 class enemyFish(pygame.sprite.Sprite):
-    def __init__(self, gs, yc, direction, filename, sz, speed, eat_score):
+    def __init__(self, gs, yc, direction, filename, sz, speed, eat_score, sprite_id):
         pygame.sprite.Sprite.__init__(self)
         self.gs = gs
         self.image = pygame.image.load(filename)
@@ -13,6 +13,7 @@ class enemyFish(pygame.sprite.Sprite):
         self.rect.y = yc #starting y coordinate of the fish 
         self.speed = speed  # can specify how fast the fish is moving 
         self.eat_score = eat_score #specifies if it can be eaten or not by player
+        self.sprite_id = sprite_id
         if self.direction == "left":
             self.rect.x = 640
         else:

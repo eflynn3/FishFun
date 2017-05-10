@@ -39,13 +39,14 @@ class StartFactory(ClientFactory):
 class GameConnection(Protocol):
     def connectionMade(self):
         print "connected to game host"
-        playGame.main("2")
+        playGame.main("2", self)
         gameLoop = LoopingCall(playGame.gameLoop)
         gameLoop.start(0.0166)
 
     def dataReceived(self, data):
-       #game.get_remote(data)
-       print "client game received"
+        print data
+        playGame.updateFish(data)
+        playGame.getData2()
 
 class GameFactory(ClientFactory):
     def __init__(self):

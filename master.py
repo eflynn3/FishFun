@@ -27,11 +27,20 @@ class StartFactory(ClientFactory):
 class GameConnection(Protocol):
     def connectionMade(self):
         print "Created game connection"
-        playGame.main("1")
+        playGame.main("1", self)
         gameLoop = LoopingCall(playGame.gameLoop)
         gameLoop.start(0.0166)
+
+        dataLoop = LoopingCall(self.getData)
+        dataLoop.start(2)
+
     def dataReceived(self, data):
-    	print "data received"
+    	print data
+        playGame.updateFish2(data)
+
+
+    def getData(self):
+        playGame.getData()
 
 class GameFactory(ClientFactory):
     def __init__(self):
