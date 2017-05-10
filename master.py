@@ -32,7 +32,7 @@ class GameConnection(Protocol):
         gameLoop.start(0.0166)
 
         dataLoop = LoopingCall(self.getData)
-        dataLoop.start(2)
+        dataLoop.start(0.5)
 
     def dataReceived(self, data):
     	print data

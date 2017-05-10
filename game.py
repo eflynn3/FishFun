@@ -20,6 +20,11 @@ class GameSpace:
         self.connection = connection
         self.fishes = pygame.sprite.Group()
         self.remove_sprite = 0
+        self.image2 = "secondPlayerOriginal.png"
+        self.image = "playerOriginal.png"
+
+        self.points = 0
+        self.points2 = 0
         # initialize all game objects
         self.playerFish = playerFish(self, self.playerNumber)      #set size to 15
 
@@ -60,7 +65,8 @@ class GameSpace:
 
         self.fishes.add(self.shark1)
         
-        done = False
+        pygame.key.set_repeat(1, 10)
+
         #pygame.key.set_repeat(1, 10)
         #while not done: #eventually get rid of this
          #   self.game_loop()
@@ -72,14 +78,14 @@ class GameSpace:
         mytext = pygame.font.SysFont("monospace", 20)
         label = mytext.render("You Lost!", 1, (255, 255, 0))
         self.screen.blit(label, (100, 100))
+        sleep(10)
         pygame.display.flip()
-        #pygame.time.wait(5000)
-        #sys.exit()
+        sys.exit()
 
     def getData(self):
         x = str(self.playerFish.rect.x)
         y = str(self.playerFish.rect.y)
-        Str = x + ":" + y + "|" + str(self.remove_sprite)
+        Str = x + ":" + y + "|" + str(self.remove_sprite) + "#" + self.image + "$" + str(self.points)
         self.connection.transport.write(Str)
         self.remove_sprite = 0
 
@@ -87,30 +93,43 @@ class GameSpace:
         x = str(self.playerFish.rect2.x)
         y = str(self.playerFish.rect2.y)
 
-        Str = x + ":" + y + "|" + str(self.remove_sprite)
+        Str = x + ":" + y + "|" + str(self.remove_sprite) + "#" + self.image2 + "$" + str(self.points2)
         self.connection.transport.write(Str)
         self.remove_sprite = 0
 
     def updateFish(self, data):
-        i = data.split("|")[0]
-        ID = int(data.split("|")[1])
+        s = data.split("$")[0]
+        score = data.split("$")[1]
+        d = s.split("#")[0]
+        img = s.split("#")[1]
+        i = d.split("|")[0]
+        ID = int(d.split("|")[1])
         x = i.split(":")[0]
         y = i.split(":")[1]
         self.playerFish.rect.x = int(x)
         self.playerFish.rect.y = int(y)
+        self.playerFish.image = pygame.image.load(img)
+        self.points = int(score)
 
         for f in self.fishes:
             if f.sprite_id == ID:
                 pygame.sprite.Sprite.kill(f)
 
     def updateFish2(self, data):
-        i = data.split("|")[0]
-        ID = int(data.split("|")[1])
+        s = data.split("$")[0]
+        score = data.split("$")[1]
+        d = s.split("#")[0]
+        img = s.split("#")[1]
+        i = d.split("|")[0]
+        ID = int(d.split("|")[1])
         x = i.split(":")[0]
         y = i.split(":")[1]
 
         self.playerFish.rect2.x = int(x)
         self.playerFish.rect2.y = int(y)
+        self.playerFish.image2 = pygame.image.load(img)
+        self.points2 = int(score)
+
         for f in self.fishes:
             if f.sprite_id == ID:
                 pygame.sprite.Sprite.kill(f)
@@ -129,7 +148,7 @@ class GameSpace:
                     self.playerFish.move(5, 0, self.playerNumber)
                 elif event.key == pygame.K_LEFT:
                     self.playerFish.move(-5, 0, self.playerNumber)
-                    
+            
         self.playerFish.tick(self.playerNumber, self.connection)
         
         self.fishes.update()
@@ -138,9 +157,14 @@ class GameSpace:
         self.fishes.draw(self.screen)
         #points
         mytext = pygame.font.SysFont("monospace", 20)
-        score = "Score: " + str(self.playerFish.points)
+        score = "Blue: " + str(self.points)
         label = mytext.render(score, 1, (0, 0, 0))
-        self.screen.blit(label, (675, 30))
+
+        score2 = "Red: " + str(self.points2)
+        label2 = mytext.render(score2, 1, (0, 0, 0))
+        self.screen.blit(label, (70, 30))
+        self.screen.blit(label2, (600, 30))
+
         self.screen.blit(self.playerFish.image, self.playerFish.rect)
         self.screen.blit(self.playerFish.image2, self.playerFish.rect2)
         pygame.display.flip()

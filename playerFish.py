@@ -14,6 +14,7 @@ class playerFish(pygame.sprite.Sprite):
         self.rect2.x = 500
         self.rect2.y = 50
         self.points = 0
+        self.points2 = 0
         self.gs = gs
         self.size_score = 0
 
@@ -39,25 +40,36 @@ class playerFish(pygame.sprite.Sprite):
                 if eat_score == 0:  #red fish 
                     if eat_score + 1 == self.size_score:
                         self.image = pygame.image.load("playerSmall.png")
+                        self.gs.image = "playerSmall.png"
                     self.points += (eat_score + 2)
+                    self.gs.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 2: #green fish 
                     if eat_score == self.size_score:
                         self.image = pygame.image.load("playerMedium.png")
+                        self.gs.image = "playerMedium.png"
+
                     self.points += (eat_score + 2)
+                    self.gs.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 4: #blue fish 
                     if eat_score == self.size_score:
                         self.image = pygame.image.load("playerLarge.png")
+                        self.image = "playerLarge.png"
+                    
                     self.points += (eat_score + 2)
+                    self.gs.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 6: #gold fish 
                     if eat_score == self.size_score:
                         self.image = pygame.image.load("playerLarge.png") #need to make another image for this 
+                        self.image = "playerLarge.png"
+                
                     self.points += (eat_score + 2)
+                    self.gs.points += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
                 elif eat_score == 8: #shark
                     self.gs.end_game()
@@ -72,25 +84,40 @@ class playerFish(pygame.sprite.Sprite):
                 if eat_score == 0:  #red fish 
                     if eat_score + 1 == self.size_score:
                         self.image2 = pygame.image.load("secondPlayerSmall.png")
-                    self.points += (eat_score + 2)
+                        self.gs.image2 = "secondPlayerSmall.png"
+                    
+                    self.points2 += (eat_score + 2)
+                    self.gs.points2 += (eat_score + 2)
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 2: #green fish 
                     if eat_score == self.size_score:
                         self.image2 = pygame.image.load("secondPlayerMedium.png")
-                    self.points += (eat_score + 2)
+                        self.gs.image2 = "secondPlayerMedium.png"
+
+                    self.points2 += (eat_score + 2)
+                    self.gs.points2 += (eat_score + 2)
+
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 4: #blue fish 
                     if eat_score == self.size_score:
                         self.image2 = pygame.image.load("secondPlayerLarge.png")
-                    self.points += (eat_score + 2)
+                        self.gs.image2 = "secondPlayerLarge.png"
+                
+                    self.points2 += (eat_score + 2)
+                    self.gs.points2 += (eat_score + 2)
+
                     pygame.sprite.Sprite.kill(f)
 
                 elif eat_score == 6: #gold fish 
                     if eat_score == self.size_score:
                         self.image2 = pygame.image.load("secondPlayerLarge.png") #need to make another image for this 
-                    self.points += (eat_score + 2)
+                        self.gs.image2 = "secondPlayerLarge.png"
+          
+                    self.points2 += (eat_score + 2)
+                    self.gs.points2 += (eat_score + 2)
+
                     pygame.sprite.Sprite.kill(f)
                 elif eat_score == 8: #shark
                     self.gs.end_game()
